@@ -48,6 +48,19 @@ if($users)
 		);
 	}
 	
+	$optionsAvaliacoes = "";
+	if($aval)
+	{
+		foreach($aval as $u)
+		{
+			$optionsAvaliacoes[] = array(
+				'selected' => $u->selected,
+				'value' => $u->value,
+				'option' => $u->option
+			);
+		}		
+	}	
+	
 	echo "<div class='field_holder'>";
 	echo form_label('Supervisor', 'supervisor');
 	echo form_dropdown('supervisor', $optionsSupervisor, $g_supervisor);
@@ -69,6 +82,23 @@ if($users)
 	
 	echo "</div>";
 	
+	if($optionsAvaliacoes != '')
+	{
+		echo "<div class='field_holder'>";
+		$sAvaliacoes = new TSelecionador('avaliacoes', 'frmEditGroup');
+		$optionsAvaliacoes = arrayToObject($optionsAvaliacoes);
+		$sAvaliacoes->SetDados($optionsAvaliacoes);
+		$instrucoes = "Selecione os modelos de avaliação que se aplicam a este grupo.";
+		echo $sAvaliacoes->GerarHTML('Avaliações', $instrucoes, 'Modelos n&atilde;o selecionados','Modelos selecionados');
+		echo "</div>";
+	}
+	else
+	{
+		echo "<div class='field_holder obs_avaliacao'>";
+		echo "Nenhum modelo de avaliação cadastrado ainda";
+		echo "</div>";
+	}	
+	
 	echo "<div class='bt_holder'>";
 	echo div_clear();
 	echo form_hidden('hidden_group_id', $id);
@@ -79,6 +109,7 @@ if($users)
 	echo "<script type='text/javascript'>\r\n<!--\r\n";
 	echo "function BeforeSubmit()\r\n{\r\n";
 	echo $sAssistentes->GerarBeforeSubmit();
+	echo $sAvaliacoes->GerarBeforeSubmit();
 	echo "\r\n}\r\n-->\r\n</script>\r\n";	
 } // end if users
 ?>

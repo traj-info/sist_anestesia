@@ -84,6 +84,18 @@ class Message extends DataMapper {
 	}
 	*/
 
+	public function new_message($from, $to, $subject, $body)
+	{
+		$this->subject = $subject;
+		$this->body = $body;
+		$this->reference = create_guid();
+		$this->read_count = 0;
+		
+		return $this->save( array(
+			'from' => $from,
+			'to' => $to
+		));
+	}
 	
 	public function record_count_to($to) {
         return $this->where('to_id', $to)->where('obs', NULL)->or_where('obs !=', 'deleted')->count();

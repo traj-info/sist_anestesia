@@ -1,6 +1,10 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 	/* TRAJETTORIA CUSTOM CONSTANTS */
+	
+	#USER IDs
+	define("ADMIN_ID", "71");
+	
 	#MESSAGES MODULE
 	define("MAX_MESSAGES_PER_PAGE", "10");
 	
@@ -33,12 +37,24 @@
 	define("NAO_APROVADO", "0");
 	define("APROVADO", "1");	
 	
+	#STATUS RESPOSTAS
+	define("RESP_NAOINICIADO", "0");
+	define("RESP_INICIADO", "1");		
+	define("RESP_FINALIZADO", "2");	
+	
 	#WORDPRESS DATABASE
 	define("WP_DBNAME", "wp_anestesia");
 	define("WP_DBHOST", "localhost");
 	define("WP_DBUSER", "root");
 	define("WP_DBPASSWORD", "krieger");
 
+	#OPEN AS
+	define("OPENAS_AUTO", "0");
+	define("OPENAS_COORDENADOR_ASSISTENTE", "1");
+	define("OPENAS_SUPERVISOR_ASSISTENTE", "2");
+	define("OPENAS_SUPERVISOR_COORDENADOR", "3");
+	define("OPENAS_CHEFE_COORDENADOR", "4");
+	define("OPENAS_CHEFE_SUPERVISOR", "5");
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

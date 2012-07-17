@@ -10,7 +10,8 @@ class Resposta extends DataMapper {
 	var $table = 'respostas';
 
 	// Insert related models that Resposta can have just one of.
-	var $has_one = array('avaliacao', 
+	var $has_one = array('avaliacao',
+						 'controle',
 						 'author' => array(
 		'class' => 'user',
 		'other_field' => 'respostas_minhas'

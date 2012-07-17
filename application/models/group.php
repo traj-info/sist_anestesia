@@ -20,7 +20,7 @@ class Group extends DataMapper {
 	));
 
 	// Insert related models that Group can have more than one of.
-	var $has_many = array('user');
+	var $has_many = array('user', 'avaliacao');
 
 
 	// --------------------------------------------------------------------

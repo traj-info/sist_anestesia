@@ -9,11 +9,11 @@ class Controle extends DataMapper {
 	var $model = 'controle';
 	var $table = 'controles';
 
-	// Insert related models that User can have just one of.
+	// Insert related models that Controle can have just one of.
 	var $has_one = array('user', 'producao');
 
-	// Insert related models that User can have more than one of.
-	var $has_many = array('aprovacao');
+	// Insert related models that Controle can have more than one of.
+	var $has_many = array('aprovacao', 'resposta');
 
 	// --------------------------------------------------------------------
 	// Validation
@@ -61,6 +61,12 @@ class Controle extends DataMapper {
 		return $this->where('status <>', 'closed')->get();
 	}
 	*/
+	
+	function get_previous()
+	{
+		$previous_month = date("Y-m", strtotime("-1 month")) . '-01'; // YYYY-MM-DD (dd sempre 01)
+		return $this->where('ref_mes', $previous_month)->get();
+	}
 
 	// --------------------------------------------------------------------
 	// Custom Validation Rules

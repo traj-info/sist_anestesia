@@ -35,6 +35,12 @@
 <div class='box1' id='box_menu'>
 <p class='title_box'>Menu</p>
 	<ul>
+		<li>Avaliações
+			<ul>
+				<li><a href='<?php echo base_url('respostas/pending'); ?>'>Avaliações para preencher</a></li>
+				<li><a href='<?php echo base_url('respostas/about_me'); ?>'>Avaliações sobre mim</a></li>
+			</ul>
+		</li>
 		<li>Minha pasta
 			<ul>
 				<li>Consultar relatório atual</li>

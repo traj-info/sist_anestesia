@@ -96,6 +96,54 @@ function traduz_status($s)
 	}
 }
 
+function traduz_status_resposta($s)
+{
+	switch($s)
+	{
+		case RESP_NAOINICIADO: return "Não iniciado";
+		case RESP_INICIADO: return "Iniciado";
+		case RESP_FINALIZADO: return "Finalizado";
+	}
+}
+	
+function traduz_open_as($s)
+{
+	switch($s)
+	{
+		case OPENAS_AUTO: return "Auto-preenchimento";
+		case OPENAS_COORDENADOR_ASSISTENTE: return "Coordenador de grupo";
+		case OPENAS_SUPERVISOR_ASSISTENTE: return "Supervisor de grupo";
+		case OPENAS_SUPERVISOR_COORDENADOR: return "Supervisor de grupo";
+		case OPENAS_CHEFE_COORDENADOR: return "Chefe da Disciplina";
+		case OPENAS_CHEFE_SUPERVISOR: return "Chefe da Disciplina";
+	}
+}
+
+function traduz_mes($n) //n --> YYYY-MM-DD
+{
+	$temp = explode('-', $n);
+	$mes[1] = 'Janeiro';
+	$mes[2] = 'Fevereiro';
+	$mes[3] = 'Março';
+	$mes[4] = 'Abril';
+	$mes[5] = 'Maio';
+	$mes[6] = 'Junho';
+	$mes[7] = 'Julho';
+	$mes[8] = 'Agosto';
+	$mes[9] = 'Setembro';
+	$mes[10] = 'Outubro';
+	$mes[11] = 'Novembro';
+	$mes[12] = 'Dezembro';
+	
+	return $mes[(int)$temp[1]];
+}
+
+function obter_ano($n) //n --> YYYY-MM-DD
+{
+	$temp = explode('-', $n);
+	return $temp[0];
+}
+
 function div_clear()
 {
 	return "<div class='clear'></div>";

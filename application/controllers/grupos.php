@@ -14,6 +14,7 @@ class Grupos extends CI_Controller {
 				$grupo->supervisor->get();
 				$grupo->coordenador->get();
 				$grupo->user->order_by('nome', 'asc')->get();
+				$grupo->avaliacao->get();
 			}
 
 			$data['grupos'] = $gr;
@@ -33,7 +34,7 @@ class Grupos extends CI_Controller {
 		}
 		
 		$data['title'] = 'Ver grupos';
-		$this->load->view('view_groups', $data	);
+		$this->load->view('view_groups', $data);
 	}
 	
 	public function add()
@@ -61,11 +62,18 @@ class Grupos extends CI_Controller {
 			$assist = new User();
 			$assist->where_in('id', $lista_assistentes)->get();
 			
+			// Get Avaliacoes
+			$post['hidden_selecionador_avaliacoes'] = substr($post['hidden_selecionador_avaliacoes'], 0, strlen($post['hidden_selecionador_avaliacoes']) - 1);
+			$lista_avaliacoes = explode(',', $post['hidden_selecionador_avaliacoes']);
+			$aval = new Avaliacao();
+			$aval->where_in('id', $lista_avaliacoes)->get();
+			
 			// Save all
 			if(! $g->save(array(
 				'supervisor' => $sup,
 				'coordenador' => $coo,
-				'user' => $assist->all
+				'user' => $assist->all,
+				'avaliacao' => $aval->all
 			))) // error on save
 			{
 				if ( $g->valid ) // validation ok; database error on insert or update
@@ -117,6 +125,28 @@ class Grupos extends CI_Controller {
 				);
 			}
 			$data['users'] = arrayToObject($data['users']);
+			
+			// Get avaliações
+			$a = new Avaliacao();
+			$a->get();
+			if($a->result_count() > 0)
+			{
+				foreach($a as $aval)
+				{
+					$data['aval'][] = array(
+						'selected' => FALSE,
+						'value' => $aval->id,
+						'option' => $aval->name
+					);
+				}
+				
+				$data['aval'] = arrayToObject($data['aval']);
+			}
+			else
+			{
+				$data['aval'] = NULL;
+			}
+			
 		}
 		else	// nenhum usuário encontrado
 		{
@@ -189,11 +219,21 @@ class Grupos extends CI_Controller {
 				// Delete current assistants
 				$g->delete($g->user->get()->all);
 				
+				// Get Avaliações
+				$post['hidden_selecionador_avaliacoes'] = substr($post['hidden_selecionador_avaliacoes'], 0, strlen($post['hidden_selecionador_avaliacoes']) - 1);
+				$lista_avaliacoes = explode(',', $post['hidden_selecionador_avaliacoes']);
+				$aval = new Avaliacao();
+				$aval->where_in('id', $lista_avaliacoes)->get();
+				
+				// Delete current avaliacoes
+				$g->delete($g->avaliacao->get()->all);
+				
 				// Save all
 				if(! $g->save(array(
 					'supervisor' => $sup,
 					'coordenador' => $coo,
-					'user' => $assist->all
+					'user' => $assist->all,
+					'avaliacao' => $aval->all
 				))) // error on save
 				{
 					if ( $g->valid ) // validation ok; database error on insert or update
@@ -263,6 +303,17 @@ class Grupos extends CI_Controller {
 					$data['g_assist'][] = $assist->id;
 				}
 			}
+			
+			// get group avaliacoes
+			$g->avaliacao->get();
+			$data['g_aval'] = array();
+			if($g->avaliacao->result_count() > 0)
+			{
+				foreach($g->avaliacao as $aval)
+				{
+					$data['g_aval'][] = $aval->id;
+				}
+			}
 		
 			// get users to display in form fields
 			$roles = array(ROLE_ASSISTENTE, ROLE_COORDENADOR_GRUPO, ROLE_SUPERVISOR_GRUPO, ROLE_ADMIN_ANESTESIA);
@@ -286,6 +337,27 @@ class Grupos extends CI_Controller {
 					);
 				}
 				$data['users'] = arrayToObject($data['users']);
+				
+				// Get avaliações
+				$a = new Avaliacao();
+				$a->get();
+				if($a->result_count() > 0)
+				{
+					foreach($a as $aval)
+					{
+						$data['aval'][] = array(
+							'selected' => in_array($aval->id, $data['g_aval']),
+							'value' => $aval->id,
+							'option' => $aval->name
+						);
+					}
+					
+					$data['aval'] = arrayToObject($data['aval']);
+				}
+				else
+				{
+					$data['aval'] = NULL;
+				}
 			}
 			else	// nenhum usuário encontrado
 			{

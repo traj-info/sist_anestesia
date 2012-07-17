@@ -7,13 +7,13 @@
 class Avaliacao extends DataMapper {
 
 	var $model = 'avaliacao';
-	var $table = 'avaliacaos';
+	var $table = 'avaliacoes';
 
 	// Insert related models that Avaliacao can have just one of.
 	var $has_one = array();
 
 	// Insert related models that Avaliacao can have more than one of.
-	var $has_many = array();
+	var $has_many = array('group', 'resposta');
 
 	// --------------------------------------------------------------------
 	// Validation
@@ -21,7 +21,38 @@ class Avaliacao extends DataMapper {
 	// --------------------------------------------------------------------
 
 	var $validation = array(
-
+		'name' => array(
+			'label' => 'Nome do modelo de avaliação',
+			'rules' => array(
+				'required',
+				'trim',
+				'min-length' => 3,
+				'max-length' => 255
+			)
+		),
+		'description' => array(
+			'label' => 'Descrição',
+			'rules' => array(
+				'trim',
+				'min-length' => 3,
+				'max-length' => 255
+			)
+		),
+		'filename' => array(
+			'label' => 'Nome do arquivo com as questões',
+			'rules' => array(
+				'required',
+				'trim',
+				'min-length' => 3,
+				'max-length' => 255
+			)
+		),
+		'target' => array(
+			'label' => 'Aplica-se',
+			'rules' => array(
+				'required'
+			)
+		)
 	);
 
 	// --------------------------------------------------------------------

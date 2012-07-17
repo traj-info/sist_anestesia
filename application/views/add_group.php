@@ -43,6 +43,19 @@ if($users)
 		);
 	}
 	
+	$optionsAvaliacoes = "";
+	if($aval)
+	{
+		foreach($aval as $u)
+		{
+			$optionsAvaliacoes[] = array(
+				'selected' => $u->selected,
+				'value' => $u->value,
+				'option' => $u->option
+			);
+		}		
+	}
+	
 	echo "<div class='field_holder'>";
 	echo form_label('Supervisor', 'supervisor');
 	echo form_dropdown('supervisor', $options);
@@ -54,15 +67,30 @@ if($users)
 	echo "</div>";
 	
 	echo "<div class='field_holder'>";
-	
 	$sAssistentes = new TSelecionador('assistentes', 'frmAddGroup');
 	$optionsAssistentes = arrayToObject($optionsAssistentes);
 	$sAssistentes->SetDados($optionsAssistentes);
 	$instrucoes = "Selecione os médicos assistentes que fazem parte deste grupo. Atente para NÃO adicionar médicos já listados como Coordenador ou Supervisor deste grupo.";
 	echo $sAssistentes->GerarHTML('Assistentes', $instrucoes, 'M&eacute;dicos n&atilde;o selecionados','M&eacute;dicos selecionados');
-	
-	
 	echo "</div>";
+
+	if($optionsAvaliacoes != '')
+	{
+		echo "<div class='field_holder'>";
+		$sAvaliacoes = new TSelecionador('avaliacoes', 'frmAddGroup');
+		$optionsAvaliacoes = arrayToObject($optionsAvaliacoes);
+		$sAvaliacoes->SetDados($optionsAvaliacoes);
+		$instrucoes = "Selecione os modelos de avaliação que se aplicam a este grupo.";
+		echo $sAvaliacoes->GerarHTML('Avaliações', $instrucoes, 'Modelos n&atilde;o selecionados','Modelos selecionados');
+		echo "</div>";
+	}
+	else
+	{
+		echo "<div class='field_holder obs_avaliacao'>";
+		echo "Nenhum modelo de avaliação cadastrado ainda";
+		echo "</div>";
+	}
+
 	
 	echo "<div class='bt_holder'>";
 	echo div_clear();
@@ -73,6 +101,7 @@ if($users)
 	echo "<script type='text/javascript'>\r\n<!--\r\n";
 	echo "function BeforeSubmit()\r\n{\r\n";
 	echo $sAssistentes->GerarBeforeSubmit();
+	echo $sAvaliacoes->GerarBeforeSubmit();
 	echo "\r\n}\r\n-->\r\n</script>\r\n";	
 } // end if users
 

@@ -63,6 +63,12 @@ class Setting extends DataMapper {
 	}
 	*/
 	
+	public function get_chefe_disciplina()
+	{
+		$user = new User('71'); // TODO: obter chefe da disciplina
+		return $user;
+	}
+	
 	private function _strip_email($txt)
 	{
 		return substr($txt, 6);
