@@ -12,8 +12,8 @@ class Producao extends DataMapper {
 	// Insert related models that Producao can have just one of.
 	var $has_one = array('controle', 
 						 'modifier' => array(
-		'class' => 'producao',
-		'other_field' => 'modified_author'
+		'class' => 'user',
+		'other_field' => 'related_producoes'
 		));
 
 	// Insert related models that Producao can have more than one of.

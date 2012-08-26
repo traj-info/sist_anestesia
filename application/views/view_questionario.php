@@ -1,5 +1,8 @@
 <?php $this->load->view('header'); ?>
 <?php echo ($this->input->get('msg') && $this->input->get('msg_type'))? msg(urldecode(html_entity_decode($this->input->get('msg', TRUE))), urldecode(html_entity_decode($this->input->get('msg_type', TRUE)))) : ''; ?>
+
+<?php if ($erros) echo msg($erros, 'error'); ?>
+
 <h2>Avaliação: <?php echo $avaliacao->name; ?></h2>
 
 <script type="text/javascript">
@@ -66,8 +69,10 @@ $attributes = array('class' => 'traj_form', 'id' => 'frmAnswerAvaliacao', 'name'
 echo form_open('respostas/processa_respostas', $attributes);
 
 //$avaliacao->filename = 'superv_coord'; // TODO: tirar
-$avaliacao->filename = 'assistente_uti'; // TODO: tirar
 //$avaliacao->filename = 'assistente'; // TODO: tirar
+//$avaliacao->filename = 'assistente'; // TODO: tirar
+
+if($status_id == RESP_FINALIZADO) echo msg('Você está apenas visualizando os dados preenchidos. A avaliação encontra-se finalizada.', 'note');
 
 include('avaliacoes/' . $avaliacao->filename . '.php');
 
@@ -75,8 +80,11 @@ echo "<div class='bt_holder'>";
 echo div_clear();
 echo form_hidden('hidden_author_id', $author->id);
 echo form_hidden('hidden_resposta_id', $id);
-echo form_submit('submitSalvar', 'Salvar alterações (poderá ser editado posteriormente)');
-echo form_submit('submitFinalizar', 'Finalizar avaliação');
+if($status_id != RESP_FINALIZADO)
+{
+	echo form_submit('submitSalvar', 'Salvar alterações (poderá ser editado posteriormente)');
+	echo form_submit('submitFinalizar', 'Finalizar avaliação');
+}
 echo "</div>"; // bt_holder
 
 ?>

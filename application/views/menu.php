@@ -41,6 +41,12 @@
 				<li><a href='<?php echo base_url('respostas/about_me'); ?>'>Avaliações sobre mim</a></li>
 			</ul>
 		</li>
+		<li>Aprovações
+			<ul>
+				<li><a href='<?php echo base_url('aprovacoes/mostrar/pendentes/'); ?>'>Aprovações pendentes</a></li>
+				<li><a href='<?php echo base_url('aprovacoes/mostrar/'); ?>'>Todas as aprovações</a></li>
+			</ul>
+		</li>		
 		<li>Minha pasta
 			<ul>
 				<li>Consultar relatório atual</li>
@@ -84,8 +90,7 @@
 
 		<li>Produção - Administrador
 			<ul>
-				<li><a href='<?php echo base_url('/sent'); ?>'>Atuais</a></li>
-				<li><a href='<?php echo base_url('/sent'); ?>'>Anteriores</a></li>
+				<li><a href='<?php echo base_url('producoes/show/1/'); ?>'>Lista de produções</a></li>
 			</ul>
 		</li>
 		<li>Logs

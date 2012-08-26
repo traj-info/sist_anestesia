@@ -46,6 +46,9 @@ class User extends DataMapper {
 	),					  'respostas_sobre_mim' => array(
 		'class' => 'resposta',
 		'other_field' => 'ref_user'
+	),					  'related_producoes' => array(
+		'class' => 'producao',
+		'other_field' => 'modifier'
 	));
 
 	// --------------------------------------------------------------------
@@ -86,10 +89,6 @@ class User extends DataMapper {
 	{
 	}
 
-	public function get_active()
-	{
-		return $this->where('status_id', STATUS_ACTIVE)->get();
-	}
 	
 	// --------------------------------------------------------------------
 	// Custom Methods
@@ -103,6 +102,18 @@ class User extends DataMapper {
 	}
 	*/
 
+	// retrieve user(s) with status ACTIVE
+	public function get_active()
+	{
+		return $this->where('status_id', STATUS_ACTIVE)->get();
+	}
+	
+	// retrieve current logged in user
+	public function get_logged_user()
+	{
+		// TODO: obter usuário logado
+		return $this->get_by_id(ADMIN_ID);
+	}
 	// --------------------------------------------------------------------
 	// Custom Validation Rules
 	//   Add custom validation rules for this model here.

@@ -1,4 +1,5 @@
 html, body, div, span, applet, object, iframe,
+html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -405,6 +406,27 @@ ul.top_menu li a:hover
 	height: 12px;
 	background: transparent url('../images/sm_signup.png') no-repeat top left;
 }
+.op_veravaliacao a
+{
+	display: block;
+	float: left;
+	margin-right: 5px;
+	text-indent: -10000px;
+	width: 12px;
+	height: 12px;
+	background: transparent url('../images/sm_view.png') no-repeat top left;
+}
+
+.op_reabriravaliacao a
+{
+	display: block;
+	float: left;
+	margin-right: 5px;
+	text-indent: -10000px;
+	width: 12px;
+	height: 12px;
+	background: transparent url('../images/sm_reabrir.png') no-repeat top left;
+}
 
 .op_editaravaliacao a
 {
@@ -484,6 +506,19 @@ tr.detalhes_assistentes:hover td
 tr.detalhes_avaliacoes:hover td
 {
 	background: #ccc !important;
+	color: #000 !important;
+}
+
+
+.detalhes_aprovacao td
+{
+	background: #ddd;
+	color: #000 !important;
+}
+
+tr.detalhes_aprovacao:hover td
+{
+	background: #ddd !important;
 	color: #000 !important;
 }
 
@@ -653,4 +688,16 @@ div.selecionador_botoes input:active
 	float: left;
 	text-align: right;
 	font-weight: bold;
+}
+
+#seletor_producoes
+{
+	width: 150px;
+}
+
+#container_seletor_producoes
+{
+	float: left; 
+	margin-top: -30px; 
+	margin-left: 840px;
 }

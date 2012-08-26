@@ -62,12 +62,20 @@ class Controle extends DataMapper {
 	}
 	*/
 	
-	function get_previous()
+	// retorna os controles referentes aos meses anteriores. Por padrão, a 1 mês anterior.
+	function get_previous($dif_meses = 1)
 	{
-		$previous_month = date("Y-m", strtotime("-1 month")) . '-01'; // YYYY-MM-DD (dd sempre 01)
+		$previous_month = date("Y-m", strtotime("-" . $dif_meses . " month")) . '-01'; // YYYY-MM-DD (dd sempre 01)
 		return $this->where('ref_mes', $previous_month)->get();
 	}
 
+	
+	// retorna TRUE se todas as aprovações estiverem com o status APROVADO, i.e., se não houver nenhuma aprovação com o status NAO_APROVADO
+	function todas_aprovacoes_finalizadas()
+	{
+		return ($this->aprovacao->where('status_id', NAO_APROVADO)->count() == 0);
+	}
+	
 	// --------------------------------------------------------------------
 	// Custom Validation Rules
 	//   Add custom validation rules for this model here.

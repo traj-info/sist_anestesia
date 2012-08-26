@@ -6,6 +6,7 @@
 	<script src="<?php echo base_url('js/jquery-1.7.2.min.js'); ?>" type="text/javascript"></script>
 	<!--  jquery ui -->
 	<script src="<?php echo base_url('js/jquery-ui-1.8.20.custom.min.js'); ?>" type="text/javascript"></script>
+	<script src="<?php echo base_url('js/jquery.maskedinput-1.3.js'); ?>" type="text/javascript"></script>
 	<link rel='stylesheet' id='main-css-css'  href='<?php echo base_url('css/style.css'); ?>' type='text/css' media='all' />	
 	<title><?php echo $title ?> - Anestesiologia USP</title>
 

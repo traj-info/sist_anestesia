@@ -65,7 +65,7 @@ class Setting extends DataMapper {
 	
 	public function get_chefe_disciplina()
 	{
-		$user = new User('71'); // TODO: obter chefe da disciplina
+		$user = new User(ADMIN_ID);
 		return $user;
 	}
 	

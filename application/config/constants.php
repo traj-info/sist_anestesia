@@ -2,45 +2,48 @@
 
 	/* TRAJETTORIA CUSTOM CONSTANTS */
 	
+	#DECIMAL SEPARATOR
+	define("DS", ",");
+	
 	#USER IDs
-	define("ADMIN_ID", "71");
+	define("ADMIN_ID", 69); // 71 // TODO: recuperar do banco de dados (settings)
 	
 	#MESSAGES MODULE
-	define("MAX_MESSAGES_PER_PAGE", "10");
+	define("MAX_MESSAGES_PER_PAGE", 10);
 	
 	#EMAILS
 	define("EMAIL_BACKUP", "backup@trajettoria.com");
 	
 	#MESSAGE STATUS
-	define("MSG_UNREAD", "1");
-	define("MSG_READ", "2");
+	define("MSG_UNREAD", 1);
+	define("MSG_READ", 2);
 	
 	#USER STATUS
-	define("STATUS_INACTIVE", "0");
-	define("STATUS_ACTIVE", "1");
+	define("STATUS_INACTIVE", 0);
+	define("STATUS_ACTIVE", 1);
 
 	#USER ROLE
-	define("ROLE_NAO_ATRIBUIDO", "0");
-	define("ROLE_ASSISTENTE", "1");
-	define("ROLE_COORDENADOR_GRUPO", "2");
-	define("ROLE_SUPERVISOR_GRUPO", "3");
-	define("ROLE_ADMIN_ANESTESIA", "4");
-	define("ROLE_ADMIN_SISTEMA", "10");
+	define("ROLE_NAO_ATRIBUIDO", 0);
+	define("ROLE_ASSISTENTE", 1);
+	define("ROLE_COORDENADOR_GRUPO", 2);
+	define("ROLE_SUPERVISOR_GRUPO", 3);
+	define("ROLE_ADMIN_ANESTESIA", 4);
+	define("ROLE_ADMIN_SISTEMA", 10);
 	
 	#QUESTION TARGETS
-	define("TARGET_AUTO_AVALIACAO", "0");
-	//define("TARGET_COORDENADOR_GRUPO", "1");
-	define("TARGET_SUPERVISOR_GRUPO", "2");
-	define("TARGET_CHEFE_ANESTESIA", "3");
+	define("TARGET_AUTO_AVALIACAO", 0);
+	//define("TARGET_COORDENADOR_GRUPO", 1);
+	define("TARGET_SUPERVISOR_GRUPO", 2);
+	define("TARGET_CHEFE_ANESTESIA", 3);
 	
 	#STATUS APROVACOES
-	define("NAO_APROVADO", "0");
-	define("APROVADO", "1");	
+	define("NAO_APROVADO", 0);
+	define("APROVADO", 1);	
 	
 	#STATUS RESPOSTAS
-	define("RESP_NAOINICIADO", "0");
-	define("RESP_INICIADO", "1");		
-	define("RESP_FINALIZADO", "2");	
+	define("RESP_NAOINICIADO", 0);
+	define("RESP_INICIADO", 1);		
+	define("RESP_FINALIZADO", 2);	
 	
 	#WORDPRESS DATABASE
 	define("WP_DBNAME", "wp_anestesia");
@@ -49,12 +52,16 @@
 	define("WP_DBPASSWORD", "krieger");
 
 	#OPEN AS
-	define("OPENAS_AUTO", "0");
-	define("OPENAS_COORDENADOR_ASSISTENTE", "1");
-	define("OPENAS_SUPERVISOR_ASSISTENTE", "2");
-	define("OPENAS_SUPERVISOR_COORDENADOR", "3");
-	define("OPENAS_CHEFE_COORDENADOR", "4");
-	define("OPENAS_CHEFE_SUPERVISOR", "5");
+	define("OPENAS_AUTO", 0);
+	define("OPENAS_COORDENADOR_ASSISTENTE", 1);
+	define("OPENAS_SUPERVISOR_ASSISTENTE", 2);
+	define("OPENAS_SUPERVISOR_COORDENADOR", 3);
+	define("OPENAS_CHEFE_COORDENADOR", 4);
+	define("OPENAS_CHEFE_SUPERVISOR", 5);
+	
+	#STATUS CONTROLES
+	define("STATUS_CONTROLE_INICIADO", 0);
+	define("STATUS_CONTROLE_FINALIZADO", 1);
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

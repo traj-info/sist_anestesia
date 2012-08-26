@@ -70,7 +70,11 @@ class Resposta extends DataMapper {
 		return $this->where('status <>', 'closed')->get();
 	}
 	*/
-
+	public function get_auto_avaliacao()
+	{
+		return $this->where('author_id', $this->ref_user_id)->get();
+	}
+	
 	// --------------------------------------------------------------------
 	// Custom Validation Rules
 	//   Add custom validation rules for this model here.

@@ -94,6 +94,7 @@ class Avaliacao extends DataMapper {
 	}
 	*/
 
+
 	// --------------------------------------------------------------------
 	// Custom Validation Rules
 	//   Add custom validation rules for this model here.

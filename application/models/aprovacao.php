@@ -63,6 +63,11 @@ class Aprovacao extends DataMapper {
 	}
 	*/
 
+	function get_pending()
+	{
+		return $this->where('status_id', NAO_APROVADO)->get();
+	}
+	
 	// --------------------------------------------------------------------
 	// Custom Validation Rules
 	//   Add custom validation rules for this model here.
