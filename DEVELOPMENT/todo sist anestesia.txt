@@ -1,0 +1,18 @@
+criar controller Aprovação (view)
+	criar controller Producao (show/edit/[view???])
+
+melhorar controller Producao, permitindo corrigir valores calculados automaticamente pelo Controlador
+
+testar controller Controlador, cálculos de pontuacao e valores
+
+
+implementar cálculo de score de cada avaliação
+- layout
+- cores tabela show producao para linhas com status "não iniciado"
+- login
+- cron job to sync with WP users
+- implement TODOs
+- definir quais questões devem ser preenchidas por quais tipos de usuários
+- ordenar listas (como a de producao)
+- validação das respostas
+- popup detalhes aprovacao

@@ -8,13 +8,11 @@ class Controlador extends CI_Controller {
 	}
 	
 	// executado 1 vez por mês como cron job.
-	// cria os controles iniciais referentes ao mês anterior e as respectivas dependências (produões e respostas às avaliações).
+	// cria os controles iniciais referentes ao mês anterior e as respectivas dependências (produções e respostas às avaliações).
 	// dispara avisos informando que já estão disponíveis os formulários de avaliações.
 	public function setup()
 	{
 		// TODO: restringir acesso somente via cli (command-line interface) to prevent remote access attempt
-		
-		
 
 		// get all users
 		$u = new User();
@@ -35,6 +33,17 @@ class Controlador extends CI_Controller {
 			
 			// cria producao
 			$prod = new Producao();
+			// recupera valores da produção anterior para que a nova produção seja preenchida com alguns dados pré-populados
+			$cont_ant = new Controle();
+			$cont_ant->where('ref_mes', date("Y-m", strtotime("-2 month")) . '-01')->where('user_id', $user->id)->get();
+			if($cont_ant->result_count() > 0)	// encontrou controle anterior
+			{
+				$cont_ant->producao->get();
+				$prod->salario_hc = $cont_ant->producao->salario_hc;
+				$prod->nivel = $cont_ant->producao->nivel;
+				$prod->ch_prevista = $cont_ant->producao->ch_prevista;
+				$prod->sh_acumulado = $cont_ant->producao->sh_acumulado;
+			}
 			$prod->save();
 
 			// salva controle (por enquanto sem as respostas)
@@ -323,18 +332,108 @@ class Controlador extends CI_Controller {
 
 					if($avaliacoes_finalizadas && $producao_finalizada) // todas as avaliações e a produção foram finalizadas. Podemos fazer os cálculos do mês e criar as aprovações necessárias
 					{
-						//echo "     TUDO FINALIZADO<Br>";
 						if(!$c->pontuacao || !$c->valor_total) // ainda não foi calculada a pontuação ou o valor total
 						{
-							// TODO: cálculo dos valores e pontuações
+							// pontuação:
 							// ASSISTENTE --> pontuacao = auto-avaliacao[1] + media(soma(supervisores[9]))
-							// COORDENADOE DE GRUPO --> pontuacao = auto_avaliacao[1] + chefe[3] + supervisor[6]
+							// COORDENADOR DE GRUPO --> pontuacao = auto_avaliacao[1] + chefe[3] + supervisor[6]
 							// SUPERVISOR DE GRUPO --> pontuacao = auto_avaliacao[1] + chefe[9]
 							// CHEFE --> não tem pontuacao
+
+							$c->resposta->get();
+							if($c->resposta->result_count() > 0)
+							{
+								$score_superv = 0;
+								$score_auto = 0;
+								$score_chefe = 0;
+								
+								$cont_superv = 0;
+								
+								foreach($c->resposta as $r)
+								{
+									switch($r->open_as)
+									{
+										case OPENAS_AUTO:
+											$score_auto = $r->score;
+											break;
+											
+										case OPENAS_COORDENADOR_ASSISTENTE:
+											// não utilizado
+											break;
+											
+										case OPENAS_SUPERVISOR_ASSISTENTE:
+											$score_superv += $r->score;
+											$cont_superv++;
+											break;
+											
+										case OPENAS_SUPERVISOR_COORDENADOR:
+											$score_superv += $r->score;
+											break;
+											
+										case OPENAS_CHEFE_COORDENADOR:
+											$score_chefe += $r->score;
+											break;
+											
+										case OPENAS_CHEFE_SUPERVISOR:
+											$score_chefe += $r->score;
+											break;
+									}
+								}
+								if($cont_superv > 1) $score_superv = $score_superv / $cont_superv; // calcula média dos scores dos supervisores do assistente
+								$c->pontuacao = $score_auto + $score_superv + $score_chefe;
+							}
 							
-							$score = 0;
-							$c->resposta->get_auto_avaliacao();
-							//return;
+							// obtém tabela de salários
+							$s = new Setting();
+							$s->where('param', 'tabela_salarios')->get();
+							$sal = unserialize($s->value);
+							
+							// obtém produção
+							$c->producao->get();
+							
+							// calcula valor plantões
+							$valor_plantoes_0 = (!is_mumeric($c->producao->compl_plantoes_qtde_0) || !is_numeric($c->producao->compl_plantoes_valor_0)) ? 0 : $c->producao->compl_plantoes_qtde_0 * $c->producao->compl_plantoes_valor_0;
+							$valor_plantoes_1 = (!is_mumeric($c->producao->compl_plantoes_qtde_1) || !is_numeric($c->producao->compl_plantoes_valor_1)) ? 0 : $c->producao->compl_plantoes_qtde_1 * $c->producao->compl_plantoes_valor_1;
+							$valor_plantoes_2 = (!is_mumeric($c->producao->compl_plantoes_qtde_2) || !is_numeric($c->producao->compl_plantoes_valor_2)) ? 0 : $c->producao->compl_plantoes_qtde_2 * $c->producao->compl_plantoes_valor_2;
+							$c->valor_plantoes = $valor_plantoes_0 + $valor_plantoes_1 + $valor_plantoes_2;
+							
+							// calcula valor / hora
+							if($c->pontuacao <= 350)
+							{
+								$c->valor_hora = $c->producao->salario_hc;
+							}
+							else if($c->pontuacao <= 500)
+							{
+								$c->valor_hora = $sal[2 + $c->producao->nivel];
+							}
+							else if($c->pontuacao <= 650)
+							{
+								$c->valor_hora = $sal[5 + $c->producao->nivel];
+							}
+							else if($c->pontuacao <= 800)
+							{
+								$c->valor_hora = $sal[8 + $c->producao->nivel];
+							}
+							else if($c->pontuacao <= 950)
+							{
+								$c->valor_hora = $sal[11 + $c->producao->nivel];
+							}
+							else if($c->pontuacao <= 1000)
+							{
+								$c->valor_hora = $sal[14 + $c->producao->nivel];
+							}
+							
+							// calcula valor jornada sem desconto
+							$c->valor_jornada = $c->valor_hora * $c->producao->ch_cumprida;
+							
+							// calcula valor total = valor plantoes + valor jornada - desconto
+							$c->valor_total = $c->valor_plantoes + $c->valor_jornada - $c->producao->desconto;
+							
+							// salva controle com os dados atualizados
+							if(! $c->save()) // error on save
+							{
+								exit('erro ao salvar controle ID: ' . $c->id);
+							}
 						}
 					
 						if($c->aprovacao->result_count() < 1)	// ainda não foram adicionadas as aprovações necessárias
@@ -460,6 +559,7 @@ class Controlador extends CI_Controller {
 					}
 					else // resta alguma avaliação ou produção não finalizada
 					{
+						// TODO: notifica admin se estiver chegando num dia predefinido
 					}
 				}
 			}

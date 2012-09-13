@@ -701,3 +701,19 @@ div.selecionador_botoes input:active
 	margin-top: -30px; 
 	margin-left: 840px;
 }
+
+#tabSalarios td
+{
+	padding: 5px;
+	border:1px solid #000;
+}
+
+.tdBold
+{
+	font-weight: bold;
+}
+
+.tdCenter
+{
+	text-align: center;
+}

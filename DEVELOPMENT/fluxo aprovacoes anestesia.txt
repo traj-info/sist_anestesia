@@ -1,0 +1,32 @@
+RESPOSTAS
+1) usuário é assistente
+	- supervisor DE CADA GRUPO avalia 9 questões. O sistema calcula uma média das avaliações feitas pelos supervisores
+	- o próprio assistente preenche 1 questão de auto-avaliação
+
+2) usuário é coordenador de grupo
+	- administrador avalia 3 questões
+	- supervisor avalia 6 questões
+	- o próprio coordenador preenche 1 questão de auto-avaliação
+
+3) usuário é supervisor de grupo
+	- administrador avalia as 9 questões
+	- o próprio supervisor preenche 1 questão de auto-avaliação
+
+4) usuário é administrador da disciplina
+
+====================================================================
+
+APROVAÇÕES (página que mostra resumo do controle, produção, status de aprovações e notas de cada resposta), com link para o sistema de mensagens já pre-configurando o destinatário
+1) usuário é assistente
+	- 
+
+2) usuário é coordenador de grupo
+	- administrador avalia 3 questões
+	- supervisor avalia 6 questões
+	- o próprio coordenador preenche 1 questão de auto-avaliação
+
+3) usuário é supervisor de grupo
+	- administrador avalia as 9 questões
+	- o próprio supervisor preenche 1 questão de auto-avaliação
+
+4) usuário é administrador da disciplina

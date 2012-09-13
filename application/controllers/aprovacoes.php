@@ -162,7 +162,9 @@ class Aprovacoes extends CI_Controller {
 			<p>(B) Valor dos plantões: <strong>R$ <?php echo number_format($ap->controle->valor_plantoes, 2, ",", ""); ?></strong></p>
 			<p>Valor TOTAL: <strong>R$ <?php echo number_format($ap->controle->valor_total, 2, ",", ""); ?></strong></p>
 			<br/>
-			
+			<hr>
+			<p><strong>OBSERVAÇÕES</strong></p>
+			<div class="obs_detalhes"><?php echo $ap->controle->producao->obs; ?></div>
 			
 			<?php
 		}
@@ -174,14 +176,26 @@ class Aprovacoes extends CI_Controller {
 	
 	public function aprovar()
 	{
-		echo "RODOU --> id: " . $this->uri->segment(3);
-		
 		// TODO: checar se usuário pode aprovar
 		$id = $this->uri->segment(3);
 		$ap = new Aprovacao($id);
 		if($ap->result_count() > 0)
 		{
-			
+			$ap->status_id = APROVADO;
+			if(! $ap->save() ) // error on save
+			{
+				$msg = urlencode(htmlentities("<strong>Ocorreu um erro ao processar a aprovação. Por favor, tente novamente e, se o problema persistir, contate o administrador.</strong>"));
+				$msg_type = urlencode('error');
+				redirect("/aprovacoes/mostrar/?msg=$msg&msg_type=$msg_type");
+				return;
+			}
+			else
+			{
+				$msg = urlencode(htmlentities("<strong>Aprovação processada!</strong>"));
+				$msg_type = urlencode('success');
+				redirect("/aprovacoes/mostrar/?msg=$msg&msg_type=$msg_type");
+				return;
+			}
 		}
 		else
 		{

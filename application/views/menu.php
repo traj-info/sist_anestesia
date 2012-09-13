@@ -75,9 +75,8 @@
 		</li>
 		<li>Configurações
 			<ul>
-				<li>Configurações de e-mail</li>
-				<li>Tabela de salários</li>
-				<li>Configurações de notificação</li>
+				<li><a href='<?php echo base_url('configuracoes/email'); ?>'>Configurações de e-mail</a></li>
+				<li><a href='<?php echo base_url('configuracoes/salario'); ?>'>Tabela de salários</a></li>
 			</ul>
 		</li>
 		<li>Modelos de avaliações

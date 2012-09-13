@@ -112,6 +112,10 @@ class Respostas extends CI_Controller {
 						return;
 					}
 					
+					// calcular score
+					$resp->score = $this->__score($resp_id, $post);
+					echo $resp->score; exit();
+					
 					// salvar dados
 					$resp->answers = serialize($post);
 					$resp->status_id = isset($post['submitSalvar']) ? RESP_INICIADO : RESP_FINALIZADO;
@@ -145,7 +149,27 @@ class Respostas extends CI_Controller {
 
 	public function reabrir()
 	{
-		echo "reabrir";
+		//TODO: restringir a admins
+		
+		$resp_id = $this->uri->segment(3);
+		$resp = new Resposta($resp_id);
+		if($resp->result_count() > 0)
+		{
+			$resp->status_id = RESP_INICIADO;
+			if($resp->save())	// salvou ok
+			{
+				redirect("");
+				return;
+			}
+			else	// erro ao reabrir respostas
+			{
+				exit('Erro ao reabrir folha de respostas.');
+			}	
+		}
+		else
+		{
+			exit('Folha de respostas não encontrada.');
+		}
 	}
 	
 	private function __validar($resp_id, $post)
@@ -158,5 +182,14 @@ class Respostas extends CI_Controller {
 		include('validacoes_avaliacoes/' . $r->avaliacao->filename . '.php');
 	}
 	
+	private function __score($resp_id, $post)
+	{
+		$r = new Resposta($resp_id);
+		if($r->result_count() < 1) return "ERRO: Folha de respostas não encontrada";
+		$r->avaliacao->get();
+		if($r->avaliacao->result_count() < 1) return "ERRO: Modelo de avaliação não encontrado";
+		
+		include('score_avaliacoes/' . $r->avaliacao->filename . '.php');
+	}	
 }
 

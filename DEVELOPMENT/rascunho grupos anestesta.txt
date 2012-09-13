@@ -1,0 +1,67 @@
+DOR
+	assist: graziele (68)
+	coord: teste100 (69)
+	superv: renato (65)
+
+	aval: assist (2), coord (5), superv (4)
+
+PS
+	assist: teste100 (69), renato (65)
+	coord: trajettoria (70)
+	superv: graziele (68)
+
+	aval: assist (2), coord (5), superv (4)
+
+
+PAPÉIS : assistente, coordenador, supervisor
+
+GRUPO TEM: assistentes, coordenador, supervisor
+
+
+PARA CADA GRUPO:
+PARA CADA ASSISTENTE
+	1 auto preenchimento
+	para cada grupo de que fizer parte
+		9 questoes para o supervisor
+
+COORDENADOR
+	1 auto preenchimento
+	3 questoes chefe da disciplina
+	6 questoes para o supervisor do grupo
+
+SUPERVISOR
+	1 auto preenchimento
+	9 questoes chefe da disciplina
+
+
+MASSA DE TESTES
+UTI:
+	assiste: renato (65), graziele (68)
+	coord: trajettoria (70)
+	superv: teste100 (69)
+
+	aval: assist_uti (3), coord (5), superv (4)
+
+chefe: admin (71)
+
+RESULTADO ESPERADO
+RESPOSTAS: (avaliacao_id | ref_user_id | author_id)
+	RENATO:
+		*3 | 65 | 65  (1 auto-avaliacao)
+		
+	GRAZIELE
+		*3 | 68 | 68  (1 auto-avaliacao)
+
+	TRAJETTORIA
+		*5 | 70 | 70 (1 auto avaliacao como coordenador do grupo uti)
+		
+	TESTE100
+		*3 | 65 | 69 (teste100 é superv do grupo UTI e deve preencher 9 questoes sobre o Renato)
+		*3 | 68 | 69 (teste100 é superv do grupo UTI e deve preencher 9 questoes sobre a Graziele)
+		*5 | 70 | 69 (teste100 é superv do frupo UTI e deve preencher 6 questões sobre Trajettoria, coordenador do grupo UTI)
+		*4 | 69 | 69 (teste100 é superv do grupo UTI e deve preencher 1 questão auto avaliacao)
+
+	ADMIN
+		*5 | 70 | 71 (admin é chefe da disciplina e deve responder 3 questões sobre trajettoria, coordenador do grupo uti)
+		*4 | 69 | 71 (admin é chefe da disciplina e deve responder 9 questões sobre teste100, supervisor do grupo uti)
+

@@ -3,7 +3,7 @@
 	/* TRAJETTORIA CUSTOM CONSTANTS */
 	
 	#DECIMAL SEPARATOR
-	define("DS", ",");
+	define("DS", ".");
 	
 	#USER IDs
 	define("ADMIN_ID", 69); // 71 // TODO: recuperar do banco de dados (settings)
@@ -53,7 +53,7 @@
 
 	#OPEN AS
 	define("OPENAS_AUTO", 0);
-	define("OPENAS_COORDENADOR_ASSISTENTE", 1);
+	define("OPENAS_COORDENADOR_ASSISTENTE", 1); // nunca utilizado
 	define("OPENAS_SUPERVISOR_ASSISTENTE", 2);
 	define("OPENAS_SUPERVISOR_COORDENADOR", 3);
 	define("OPENAS_CHEFE_COORDENADOR", 4);

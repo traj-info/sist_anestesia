@@ -78,6 +78,8 @@ class Producoes extends CI_Controller {
 				$compl_plantoes_valor_2 = $post['txtValorPlantoes'][2];
 				$compl_plantoes_qtde_3 = $post['txtPlantoes'][3];
 				$compl_plantoes_valor_3 = $post['txtValorPlantoes'][3];
+				$salario_hc = $post['txtSalarioHC'];
+				$desconto = $post['txtDesconto'];
 				
 				// algum campo obrigatório deixado em branco:
 				// Não usamos o recurso de validação do model Produção porque o controlador já cria os registros
@@ -129,7 +131,8 @@ class Producoes extends CI_Controller {
 					$data['nivel_3'] = ($nivel == '3');
 					
 					$data['obs'] = $obs;
-
+					$data['salario_hc'] = $salario_hc;
+					$data['desconto'] = $desconto;
 				}
 				else
 				{
@@ -142,6 +145,9 @@ class Producoes extends CI_Controller {
 					$compl_plantoes_valor_2 	= empty($compl_plantoes_valor_2) 	? NULL : (float)str_replace(",", DS, $compl_plantoes_valor_2);
 					$compl_plantoes_qtde_3 		= empty($compl_plantoes_qtde_3) 	? NULL : (float)str_replace(",", DS, $compl_plantoes_qtde_3);
 					$compl_plantoes_valor_3 	= empty($compl_plantoes_valor_3) 	? NULL : (float)str_replace(",", DS, $compl_plantoes_valor_3);
+					
+					$salario_hc				 	= empty($salario_hc) 				? NULL : (float)str_replace(",", DS, $salario_hc);
+					$desconto				 	= empty($desconto) 					? NULL : (float)str_replace(",", DS, $desconto);
 					
 					$nivel = empty($nivel) ? NULL : $nivel;
 					$usuario_logado = new User();
@@ -162,6 +168,8 @@ class Producoes extends CI_Controller {
 					$p->compl_plantoes_valor_2 = $compl_plantoes_valor_2;
 					$p->compl_plantoes_qtde_3 = $compl_plantoes_qtde_3;
 					$p->compl_plantoes_valor_3 = $compl_plantoes_valor_3;
+					$p->salario_hc = $salario_hc;
+					$p->desconto = $desconto;
 				}
 				
 				// Save all
@@ -232,8 +240,12 @@ class Producoes extends CI_Controller {
 			$data['resultado_saldo_horas'] = ($data['saldo_horas'] == 0) ? '' : $data['resultado_saldo_horas'];
 			$data['qtde_plantoes'] = ($erro) ? $data['qtde_plantoes'] : $p->qtde_plantoes;
 			
+			$data['salario_hc'] = ($erro) ? $data['salario_hc'] : number_format($p->salario_hc, 2, ",", "");
+			$data['desconto'] = ($erro) ? $data['desconto'] : number_format($p->desconto, 2, ",", "");
+			
 			$data['qtde_plantoes_0'] = ($erro) ? $data['qtde_plantoes_0'] : $p->compl_plantoes_qtde_0;
 			$data['valor_plantoes_0'] = ($erro) ? $data['valor_plantoes_0'] : number_format($p->compl_plantoes_valor_0, 2, ",", "");
+			
 			if(! $erro)
 			{
 				$total_0 = $p->compl_plantoes_qtde_0 * $p->compl_plantoes_valor_0;
